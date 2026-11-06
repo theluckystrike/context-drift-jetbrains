@@ -1,0 +1,6 @@
+<idea-plugin>
+  <!-- Open Cursor .mdc rules and the single-file rule formats as Markdown, so they get highlighting and inspections. -->
+  <extensions defaultExtensionNs="com.intellij">
+    <fileType name="Markdown" extensions="mdc" fileNames=".cursorrules;.windsurfrules;.clinerules"/>
+  </extensions>
+</idea-plugin>

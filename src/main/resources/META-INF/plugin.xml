@@ -1,0 +1,67 @@
+<idea-plugin>
+  <id>zovo.context-drift</id>
+  <name>Context Drift: AGENTS.md &amp; CLAUDE.md Linter</name>
+  <vendor url="https://github.com/theluckystrike/context-drift">Zovo</vendor>
+  <description><![CDATA[<p>Context Drift finds the commands, paths and versions in your AGENTS.md, CLAUDE.md, Cursor, Copilot and Windsurf rules that no longer match your repo.</p>
+<p>Coding agents read these files and trust them. When code moves on and the file stays the same, the agent runs a script that was renamed, opens a file that moved, or installs with the wrong package manager. Context Drift compares what the file says with what is in the repo and marks each mismatch in the editor.</p>
+<ul>
+  <li>Commands that the repo does not define, such as <code>npm run X</code>, <code>pnpm X</code>, <code>make X</code>, <code>just X</code>, <code>task X</code>, <code>cargo -p</code> and <code>uv run X</code> (CD001).</li>
+  <li>Backticked paths, links and <code>cd</code> targets that do not exist, and Cursor or Copilot globs that match no file (CD002).</li>
+  <li>A package manager that the lockfile contradicts, for example pnpm in the file and package-lock.json in the repo (CD003).</li>
+  <li>Node, Python and Go versions that .nvmrc, engines, requires-python or go.mod contradict (CD004).</li>
+  <li>Two files that give different commands for the same job, like <code>make test</code> in AGENTS.md and <code>npm test</code> in CLAUDE.md (CD005).</li>
+  <li>Files that have not changed while the repo kept moving, read-only git, off by default (CD006).</li>
+  <li>The same instruction twice in one file, or in two files that the same agent loads (CD007).</li>
+  <li>Files over the size an agent reads: 32 KiB of AGENTS.md for Codex, 40,000 characters of CLAUDE.md for Claude Code, 4,000 characters for Copilot code review, 6,000 for .windsurfrules (CD008).</li>
+</ul>
+<p>Quick fixes replace a wrong script, path, package manager or version in one click, and "Fix all" cleans the whole file. Each rule is a normal inspection, so you can turn it off or change its level under Editor | Inspections | Context Drift. The Context Drift tool window lists every finding in the project.</p>
+<p>It runs locally, with no network and no account. It skips text that reads as negated, historical or an example, so it reports fewer things and most of what it reports is real.</p>
+<p>Also for VS Code: <a href="https://marketplace.visualstudio.com/items?itemName=zovo.context-drift">Context Drift on the VS Code Marketplace</a>. Free and open source (MIT). If it saves you time, you can <a href="https://github.com/sponsors/theluckystrike">sponsor it on GitHub</a>.</p>
+]]></description>
+  <change-notes><![CDATA[
+<p>0.1.0: first JetBrains release. Rules CD001 to CD006 match the VS Code extension. New: CD007 duplicated instructions, CD008 size limits, a quick fix for version drift, a tool window and fix all in file.</p>
+]]></change-notes>
+  <depends>com.intellij.modules.platform</depends>
+  <depends optional="true" config-file="contextdrift-markdown.xml">org.intellij.plugins.markdown</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <localInspection shortName="ContextDriftCD001" displayName="CD001 Command drift" groupPath="Context Drift" groupName="Agent instruction files"
+                     enabledByDefault="true" level="ERROR" implementationClass="zovo.contextdrift.ide.inspections.DriftCD001Inspection"/>
+    <localInspection shortName="ContextDriftCD002" displayName="CD002 Path drift" groupPath="Context Drift" groupName="Agent instruction files"
+                     enabledByDefault="true" level="WARNING" implementationClass="zovo.contextdrift.ide.inspections.DriftCD002Inspection"/>
+    <localInspection shortName="ContextDriftCD003" displayName="CD003 Package-manager drift" groupPath="Context Drift" groupName="Agent instruction files"
+                     enabledByDefault="true" level="WARNING" implementationClass="zovo.contextdrift.ide.inspections.DriftCD003Inspection"/>
+    <localInspection shortName="ContextDriftCD004" displayName="CD004 Version drift" groupPath="Context Drift" groupName="Agent instruction files"
+                     enabledByDefault="true" level="WARNING" implementationClass="zovo.contextdrift.ide.inspections.DriftCD004Inspection"/>
+    <localInspection shortName="ContextDriftCD005" displayName="CD005 Cross-file conflict" groupPath="Context Drift" groupName="Agent instruction files"
+                     enabledByDefault="true" level="WEAK WARNING" implementationClass="zovo.contextdrift.ide.inspections.DriftCD005Inspection"/>
+    <localInspection shortName="ContextDriftCD006" displayName="CD006 Stale instruction file" groupPath="Context Drift" groupName="Agent instruction files"
+                     enabledByDefault="false" level="WEAK WARNING" implementationClass="zovo.contextdrift.ide.inspections.DriftCD006Inspection"/>
+    <localInspection shortName="ContextDriftCD007" displayName="CD007 Duplicated instruction" groupPath="Context Drift" groupName="Agent instruction files"
+                     enabledByDefault="true" level="WARNING" implementationClass="zovo.contextdrift.ide.inspections.DriftCD007Inspection"/>
+    <localInspection shortName="ContextDriftCD008" displayName="CD008 Size limit" groupPath="Context Drift" groupName="Agent instruction files"
+                     enabledByDefault="true" level="WARNING" implementationClass="zovo.contextdrift.ide.inspections.DriftCD008Inspection"/>
+    <projectService serviceImplementation="zovo.contextdrift.ide.DriftSettings"/>
+    <projectService serviceImplementation="zovo.contextdrift.ide.DriftService"/>
+    <projectConfigurable parentId="tools" id="zovo.contextdrift.settings" displayName="Context Drift"
+                         instance="zovo.contextdrift.ide.DriftConfigurable"/>
+    <toolWindow id="Context Drift" anchor="bottom" icon="/icons/toolWindow.svg"
+                factoryClass="zovo.contextdrift.ide.DriftToolWindowFactory"/>
+    <notificationGroup id="Context Drift" displayType="BALLOON"/>
+    <!-- screenshot mode, inert unless -Dcontextdrift.demo.capture is set -->
+    <postStartupActivity implementation="zovo.contextdrift.ide.DemoCapture"/>
+  </extensions>
+
+  <applicationListeners>
+    <listener class="zovo.contextdrift.ide.DriftVfsListener" topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
+  </applicationListeners>
+
+  <actions>
+    <action id="ContextDrift.CheckProject" class="zovo.contextdrift.ide.CheckProjectAction"
+            text="Context Drift: Check Agent Instruction Files"
+            description="Check AGENTS.md, CLAUDE.md and other agent instruction files in this project for drift"
+            icon="/icons/toolWindow.svg">
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
+    </action>
+  </actions>
+</idea-plugin>

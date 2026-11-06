@@ -1,0 +1,2872 @@
+[
+ {
+  "suite": "r2",
+  "name": "R01-never-without",
+  "files": {
+   "AGENTS.md": "- Never commit without running `npm run lint`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:lint"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 40,
+    "endColumn": 44,
+    "message": "Script \"lint\" is not defined in package.json. Available: build.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R02-dont-forget",
+  "files": {
+   "AGENTS.md": "Don't forget to run `npm run typecheck` before pushing.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:typecheck"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 29,
+    "endColumn": 38,
+    "message": "Script \"typecheck\" is not defined in package.json. Available: build.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R03-do-not-skip",
+  "files": {
+   "AGENTS.md": "Do not open a PR until `make check` passes.\n",
+   "Makefile": "build:\n\t@true\nrelease:\n\t@true\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [
+   "CD001:check"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 29,
+    "endColumn": 34,
+    "message": "`make check`: no target \"check\" in Makefile.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R04-make-sure-passes",
+  "files": {
+   "AGENTS.md": "Before you commit, make sure `npm run verify` passes.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:verify"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 38,
+    "endColumn": 44,
+    "message": "Script \"verify\" is not defined in package.json. Available: build.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R05-paren-old",
+  "files": {
+   "AGENTS.md": "Build with `npm run buidl` (the old script was removed).\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:buidl"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 20,
+    "endColumn": 25,
+    "message": "Script \"buidl\" is not defined in package.json. Did you mean \"build\"?",
+    "fix": "build"
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R06-pnpm-vs-npm-lock",
+  "files": {
+   "AGENTS.md": "Install with `pnpm install`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD003:pnpm"
+  ],
+  "js": [
+   {
+    "ruleId": "CD003",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 14,
+    "endColumn": 18,
+    "message": "`pnpm` is used here, but the repo uses npm (package-lock.json).",
+    "fix": "npm"
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R07-yarn-prose",
+  "files": {
+   "AGENTS.md": "We use yarn for everything.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   "pnpm-lock.yaml": ""
+  },
+  "expect": [
+   "CD003:yarn"
+  ],
+  "js": [
+   {
+    "ruleId": "CD003",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 7,
+    "endColumn": 11,
+    "message": "This file says to use yarn, but the repo uses pnpm (pnpm-lock.yaml).",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R08-node-old",
+  "files": {
+   "AGENTS.md": "Requires Node 16.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   ".nvmrc": "20\n"
+  },
+  "expect": [
+   "CD004:Node 16"
+  ],
+  "js": [
+   {
+    "ruleId": "CD004",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 9,
+    "endColumn": 16,
+    "message": "Version claim \"Node 16\" does not match the repo: .nvmrc says 20.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R09-python-old",
+  "files": {
+   "CLAUDE.md": "Use Python 3.9.\n",
+   "pyproject.toml": "[project]\nname=\"x\"\n",
+   ".python-version": "3.12\n"
+  },
+  "expect": [
+   "CD004:Python 3.9"
+  ],
+  "js": [
+   {
+    "ruleId": "CD004",
+    "severity": "warning",
+    "file": "CLAUDE.md",
+    "line": 0,
+    "column": 4,
+    "endColumn": 14,
+    "message": "Version claim \"Python 3.9\" does not match the repo: .python-version says 3.12.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R10-go-old",
+  "files": {
+   "AGENTS.md": "Requires Go 1.20 or newer... actually Go 1.19.\n",
+   "go.mod": "module x\n\ngo 1.22\n"
+  },
+  "expect": [
+   "CD004:Go 1.19"
+  ],
+  "js": [
+   {
+    "ruleId": "CD004",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 9,
+    "endColumn": 25,
+    "message": "Version claim \"Go 1.20 or newer\" does not match the repo: go.mod go directive says >=1.22.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD004",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 38,
+    "endColumn": 45,
+    "message": "Version claim \"Go 1.19\" does not match the repo: go.mod go directive says >=1.22.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R11-make-typo",
+  "files": {
+   "AGENTS.md": "Ship with `make relese`.\n",
+   "Makefile": "build:\n\t@true\nrelease:\n\t@true\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [
+   "CD001:relese"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 16,
+    "endColumn": 22,
+    "message": "`make relese`: no target \"relese\" in Makefile. Did you mean \"release\"?",
+    "fix": "release"
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R12-just-missing",
+  "files": {
+   "AGENTS.md": "Run `just deploy`.\n",
+   "justfile": "build:\n    echo hi\n"
+  },
+  "expect": [
+   "CD001:deploy"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 10,
+    "endColumn": 16,
+    "message": "`just deploy`: no recipe \"deploy\" in justfile.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R13-cd005-same-scope",
+  "files": {
+   "AGENTS.md": "Run tests: `npm test`.\n",
+   "CLAUDE.md": "Run tests: `make test`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"test\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "Makefile": "test:\n\t@true\n"
+  },
+  "expect": [
+   "CD005:"
+  ],
+  "js": [
+   {
+    "ruleId": "CD005",
+    "severity": "info",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 12,
+    "endColumn": 20,
+    "message": "AGENTS.md says `npm test` to test, but CLAUDE.md says `make test`. Agents get different instructions.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD005",
+    "severity": "info",
+    "file": "CLAUDE.md",
+    "line": 0,
+    "column": 12,
+    "endColumn": 21,
+    "message": "CLAUDE.md says `make test` to test, but AGENTS.md says `npm test`. Agents get different instructions.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R14-missing-link",
+  "files": {
+   "AGENTS.md": "See [the guide](docs/guide.md).\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   "docs/other.md": "x"
+  },
+  "expect": [
+   "CD002:docs/guide.md"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 16,
+    "endColumn": 29,
+    "message": "Path \"docs/guide.md\" does not exist in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R15-path-with-new-word",
+  "files": {
+   "AGENTS.md": "New API handlers go in `src/api/handlers.ts`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   "src/index.ts": "x"
+  },
+  "expect": [
+   "CD002:src/api/handlers.ts"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 24,
+    "endColumn": 43,
+    "message": "Path \"src/api/handlers.ts\" does not exist in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R16-path-like-word",
+  "files": {
+   "AGENTS.md": "Shared code like the logger lives in `src/lib/logger.ts`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   "src/index.ts": "x"
+  },
+  "expect": [
+   "CD002:src/lib/logger.ts"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 38,
+    "endColumn": 55,
+    "message": "Path \"src/lib/logger.ts\" does not exist in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "R17-no-prev-line-bleed",
+  "files": {
+   "AGENTS.md": "There is no Docker setup and\nthe entry point is `src/server.ts`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   "src/index.ts": "x"
+  },
+  "expect": [
+   "CD002:src/server.ts"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 1,
+    "column": 20,
+    "endColumn": 33,
+    "message": "Path \"src/server.ts\" does not exist in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "F01-script-colon",
+  "files": {
+   "AGENTS.md": "Run `npm run build:prod` and `pnpm test:e2e`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build:prod\": \"x\",\n    \"test:e2e\": \"x\"\n  }\n}",
+   "pnpm-lock.yaml": ""
+  },
+  "expect": [
+   "CD003:"
+  ],
+  "js": [
+   {
+    "ruleId": "CD003",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 5,
+    "endColumn": 8,
+    "message": "`npm` is used here, but the repo uses pnpm (pnpm-lock.yaml).",
+    "fix": "pnpm"
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "F02-run-script-alias",
+  "files": {
+   "AGENTS.md": "Run `npm run-script build` or `npm run build -- --watch`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F03-if-present",
+  "files": {
+   "AGENTS.md": "Run `pnpm run --if-present lint`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "pnpm-lock.yaml": ""
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F04-env-prefix",
+  "files": {
+   "AGENTS.md": "Run `NODE_ENV=production CI=1 npm run build`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F05-make-pattern-rule",
+  "files": {
+   "AGENTS.md": "Run `make build-api`.\n",
+   "Makefile": "build-%:\n\t@echo $*\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F06-make-vars-jobs",
+  "files": {
+   "AGENTS.md": "Run `make -j4 build V=1` and `make -C sub all`.\n",
+   "Makefile": "build:\n\t@true\nrelease:\n\t@true\n",
+   "sub/Makefile": "all:\n\t@true\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F07-make-dash-include",
+  "files": {
+   "AGENTS.md": "Run `make extra`.\n",
+   "Makefile": "-include extra.mk\nbuild:\n\t@true\n",
+   "extra.mk": "extra:\n\t@true\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F08-crlf-makefile",
+  "files": {
+   "AGENTS.md": "Run `make release`.\n",
+   "Makefile": "build:\r\n\t@true\r\nrelease: build\r\n\t@true\r\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F09-path-spaces-parens",
+  "files": {
+   "AGENTS.md": "See [spec](<docs/My Spec (v2).md>) and [enc](docs/My%20Spec%20(v2).md).\n",
+   "docs/My Spec (v2).md": "x",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F10-link-anchor-query",
+  "files": {
+   "AGENTS.md": "See [a](docs/a.md#setup), [b](docs/a.md?plain=1), [m](mailto:x@y.z), [h](#top).\n",
+   "docs/a.md": "x",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F11-yarn-workspace",
+  "files": {
+   "AGENTS.md": "Run `yarn workspace web dev` and `yarn dlx create-foo`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {},\n  \"workspaces\": [\n    \"apps/*\"\n  ]\n}",
+   "yarn.lock": "",
+   "apps/web/package.json": "{\"name\":\"web\",\"scripts\":{\"dev\":\"x\"}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F12-exec-tools",
+  "files": {
+   "AGENTS.md": "Run `npx tsc --noEmit`, `pnpm exec vitest`, `pnpm dlx prettier .`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   "pnpm-lock.yaml": ""
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F13-nvmrc-lts-alias",
+  "files": {
+   "AGENTS.md": "Requires Node 20.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   ".nvmrc": "lts/iron\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F14-engines-range-ok",
+  "files": {
+   "AGENTS.md": "Use Node 22 (engines allow >=18).\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {},\n  \"engines\": {\n    \"node\": \">=18\"\n  }\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F15-nvmrc-v-prefix",
+  "files": {
+   "AGENTS.md": "Use Node.js 20.11.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   ".nvmrc": "v20.11.0\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F16-requires-python-ok",
+  "files": {
+   "AGENTS.md": "Use Python 3.12.\n",
+   "pyproject.toml": "[project]\nname=\"x\"\nrequires-python = \">=3.10\"\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F17-just-alias-attr",
+  "files": {
+   "AGENTS.md": "Run `just b` and `just lint`.\n",
+   "justfile": "alias b := build\n\n[group(\"ci\")]\nbuild:\n    echo hi\n\n[private]\nlint:\n    echo hi\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F18-taskfile-include-ns",
+  "files": {
+   "AGENTS.md": "Run `task docs:build`.\n",
+   "Taskfile.yml": "version: \"3\"\nincludes:\n  docs: ./docs/Taskfile.yml\ntasks:\n  build:\n    cmds: [echo]\n",
+   "docs/Taskfile.yml": "version: \"3\"\ntasks:\n  build:\n    cmds: [echo]\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F19-cargo-member-name",
+  "files": {
+   "AGENTS.md": "Run `cargo run -p my-cli`.\n",
+   "Cargo.toml": "[workspace]\nmembers = [\"crates/*\"]\n",
+   "crates/cli/Cargo.toml": "[package]\nname = \"my-cli\"\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F20-mdc-brace-glob",
+  "files": {
+   ".cursor/rules/ts.mdc": "---\nglobs: src/**/*.{ts,tsx}\nalwaysApply: false\n---\nUse strict TS.\n",
+   "src/a/b.tsx": "x",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F21-gitignore-negation",
+  "files": {
+   "AGENTS.md": "Keep `assets/keep/logo.svg` small.\n",
+   ".gitignore": "assets/*\n!assets/keep/\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [
+   "CD002:assets/keep/logo.svg"
+  ],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F22-directive-next-line",
+  "files": {
+   "AGENTS.md": "<!-- context-drift-disable-next-line CD001 -->\nRun `npm run nope`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F23-dockerfile-fence",
+  "files": {
+   "AGENTS.md": "```dockerfile\nRUN npm run nope\n```\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F24-python-module-run",
+  "files": {
+   "AGENTS.md": "Run `uv run pytest` and `uv run python -m app`.\n",
+   "pyproject.toml": "[project]\nname=\"x\"\ndependencies=[]\n[dependency-groups]\ndev=[\"pytest>=8\"]\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F25-npm-test-default",
+  "files": {
+   "AGENTS.md": "Run `npm start`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   "server.js": "x",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "F26-heading-example",
+  "files": {
+   "AGENTS.md": "## Example layout\n\n- `src/feature/foo.ts`\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "S01-traversal",
+  "files": {
+   "AGENTS.md": "Read `../../../../etc/passwd` and [x](../../../../etc/hosts).\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "S04-ansi-in-span",
+  "files": {
+   "AGENTS.md": "Run `npm run x\u001b]0;pwned\u0007\u001b[2J`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:"
+  ],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "S05-bidi-in-span",
+  "files": {
+   "AGENTS.md": "Run `npm run a‮b`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 13,
+    "endColumn": 16,
+    "message": "Script \"a\\u202eb\" is not defined in package.json. Available: build.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r2",
+  "name": "S06-binary-agents",
+  "files": {
+   "AGENTS.md": "\u0000\u0001\u0002ÿþ\u0000`n\n`npm run nope`\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "S07-utf16-agents",
+  "files": {
+   "AGENTS.md": "﻿Run `npm run nope`."
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "S08-deep-tree",
+  "files": {
+   "AGENTS.md": "See `d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/x.md`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   "d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/d/x.md": "x"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "S09-brace-bomb",
+  "files": {
+   "AGENTS.md": "Files: `{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}{a,b}/*.ts`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r2",
+  "name": "S10-proto-script",
+  "files": {
+   "AGENTS.md": "Run `npm run __proto__` and `npm run constructor` and `make toString`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "Makefile": "build:\n\t@true\nrelease:\n\t@true\n"
+  },
+  "expect": [
+   "CD001:__proto__",
+   "CD001:constructor",
+   "CD001:toString"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 13,
+    "endColumn": 22,
+    "message": "Script \"__proto__\" is not defined in package.json. Available: build.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 37,
+    "endColumn": 48,
+    "message": "Script \"constructor\" is not defined in package.json. Available: build.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 60,
+    "endColumn": 68,
+    "message": "`make toString`: no target \"toString\" in Makefile.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "N01-dont-comma-after",
+  "files": {
+   "AGENTS.md": "Don't run `npm run eject`, it is irreversible.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "N02-instead-of-use",
+  "files": {
+   "AGENTS.md": "Instead of `npm run old`, use `npm run neww`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:neww"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 39,
+    "endColumn": 43,
+    "message": "Script \"neww\" is not defined in package.json. Available: build, lint.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "N03-never-edit-comma-run",
+  "files": {
+   "AGENTS.md": "Never edit generated files, run `npm run codegen` instead.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:codegen"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 41,
+    "endColumn": 48,
+    "message": "Script \"codegen\" is not defined in package.json. Available: build, lint.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "N04-do-not-skip",
+  "files": {
+   "AGENTS.md": "Do not skip `npm run typecheck`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:typecheck"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 21,
+    "endColumn": 30,
+    "message": "Script \"typecheck\" is not defined in package.json. Available: build, lint.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "N05-dont-without-after",
+  "files": {
+   "AGENTS.md": "Don't run `npm run deploy` without approval.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "N06-unless-after",
+  "files": {
+   "AGENTS.md": "Don't run `npm run legacy` unless you know why.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "N07-but-pivot",
+  "files": {
+   "AGENTS.md": "Do not commit yet, but run `npm run lnt` first.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:lnt"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 36,
+    "endColumn": 39,
+    "message": "Script \"lnt\" is not defined in package.json. Did you mean \"lint\"?",
+    "fix": "lint"
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "N08-no-need",
+  "files": {
+   "AGENTS.md": "There's no need to run `npm run setup` anymore.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "N09-list-prev-item-neg",
+  "files": {
+   "AGENTS.md": "- No Docker\n- Run `npm run up`\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:up"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 1,
+    "column": 15,
+    "endColumn": 17,
+    "message": "Script \"up\" is not defined in package.json. Available: build, lint.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "N10-not-alternative",
+  "files": {
+   "AGENTS.md": "Use `npm run build` (not `npm run compile`).\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "N11-unlike-two",
+  "files": {
+   "AGENTS.md": "Unlike `npm run foo`, `npm run bar` runs everything.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:bar"
+  ],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "N12-and-run",
+  "files": {
+   "AGENTS.md": "Do not push to main and run `npm run lnt` before merging.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:lnt"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 37,
+    "endColumn": 40,
+    "message": "Script \"lnt\" is not defined in package.json. Did you mean \"lint\"?",
+    "fix": "lint"
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "N13-never-forget-but-real-neg",
+  "files": {
+   "AGENTS.md": "Never forget that `npm run old-build` was removed.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "N14-dont-ignore-flip-neg-after",
+  "files": {
+   "AGENTS.md": "Don't skip CI; never use `npm run yolo`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "N15-without-plain-neg",
+  "files": {
+   "AGENTS.md": "Works without `npm run prepare` now.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "N16-skip-flip-false",
+  "files": {
+   "AGENTS.md": "Do not skip tests by calling `npm run skip-tests`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "N17-after-subject-removed",
+  "files": {
+   "AGENTS.md": "Run `npm run bild`; the old `make all` target is gone.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "Makefile": "build:\n\t@true\n"
+  },
+  "expect": [
+   "CD001:bild"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 13,
+    "endColumn": 17,
+    "message": "Script \"bild\" is not defined in package.json. Did you mean \"build\"?",
+    "fix": "build"
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "N18-no-colon-list",
+  "files": {
+   "AGENTS.md": "Do not: run `npm run danger`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "C01-add-tests-when-change",
+  "files": {
+   "AGENTS.md": "Add tests when you change `src/core.ts`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "src/index.ts": "x"
+  },
+  "expect": [
+   "CD002:src/core.ts"
+  ],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "C02-write-tests-for",
+  "files": {
+   "AGENTS.md": "Write tests for every change in `src/parser.ts`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "src/index.ts": "x"
+  },
+  "expect": [
+   "CD002:src/parser.ts"
+  ],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "C03-you-may-edit",
+  "files": {
+   "AGENTS.md": "You may edit `src/config.ts` freely.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "src/index.ts": "x"
+  },
+  "expect": [
+   "CD002:src/config.ts"
+  ],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "C04-add-test-file",
+  "files": {
+   "AGENTS.md": "Add a test in `test/new-thing.test.js`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "src/index.ts": "x"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "C05-new-far",
+  "files": {
+   "AGENTS.md": "For new code, the router lives in `src/router.ts`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "src/index.ts": "x"
+  },
+  "expect": [
+   "CD002:src/router.ts"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 35,
+    "endColumn": 48,
+    "message": "Path \"src/router.ts\" does not exist in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "C06-output-near",
+  "files": {
+   "AGENTS.md": "Build output goes into `out2/bundle.js`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "src/index.ts": "x"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "P01-sub-dotdot-inside-missing",
+  "files": {
+   "packages/web/AGENTS.md": "Shared types: `../api/src/types.ts`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "packages/api/src/index.ts": "x",
+   "packages/web/package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}"
+  },
+  "expect": [
+   "CD002:types.ts"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "packages/web/AGENTS.md",
+    "line": 0,
+    "column": 15,
+    "endColumn": 34,
+    "message": "Path \"../api/src/types.ts\" does not exist in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "P02-sub-dotdot-inside-exists",
+  "files": {
+   "packages/web/AGENTS.md": "Shared types: `../api/src/index.ts`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "packages/api/src/index.ts": "x",
+   "packages/web/package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\"\n  }\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "P03-mid-dotdot-escape",
+  "files": {
+   "AGENTS.md": "See `src/../../etc/passwd` and [h](src/../../../etc/hosts).\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "P04-mid-dotdot-inside",
+  "files": {
+   "AGENTS.md": "See `src/../lib/missing.ts`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "lib/x.ts": "x"
+  },
+  "expect": [
+   "CD002:missing.ts"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 5,
+    "endColumn": 26,
+    "message": "Path \"src/../lib/missing.ts\" does not exist in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "P05-backslash-escape",
+  "files": {
+   "AGENTS.md": "Run `..\\..\\scripts\\x.ps1` and `.\\..\\..\\a\\b.ps1`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "P06-pct-encoded-escape",
+  "files": {
+   "AGENTS.md": "See [x](%2e%2e/%2e%2e/etc/passwd) and [y](..%2F..%2Fetc%2Fhosts).\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "P07-cd-dotdot",
+  "files": {
+   "AGENTS.md": "Run `cd ../other && npm run nope`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "P08-cd-inside-then-make",
+  "files": {
+   "AGENTS.md": "Run `cd tools && make gen`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "tools/Makefile": "build:\n\t@true\n"
+  },
+  "expect": [
+   "CD001:gen"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 22,
+    "endColumn": 25,
+    "message": "`make gen`: no target \"gen\" in tools/Makefile.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "X01-esc-in-link",
+  "files": {
+   "AGENTS.md": "See [x](src/\u001b[2Jboom.ts).\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "src/i.ts": "x"
+  },
+  "expect": [
+   "CD002:\\u001b"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 8,
+    "endColumn": 23,
+    "message": "Path \"src/\\u001b[2Jboom.ts\" does not exist in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "X02-c1-csi-script",
+  "files": {
+   "AGENTS.md": "Run `npm run a2Jb`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:\\u009b"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 13,
+    "endColumn": 18,
+    "message": "Script \"a\\u009b2Jb\" is not defined in package.json. Available: build, lint.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "X03-esc-in-suggestion",
+  "files": {
+   "AGENTS.md": "Run `npm run bulid`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"buil\\u001b]0;x\\u0007d\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:bulid"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 13,
+    "endColumn": 18,
+    "message": "Script \"bulid\" is not defined in package.json. Available: buil\\u001b]0;x\\u0007d.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3",
+  "name": "X04-esc-in-make-target",
+  "files": {
+   "AGENTS.md": "Run `make dep\u001b[31mloy`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "Makefile": "build:\n\t@true\n"
+  },
+  "expect": [
+   "CD001:\\u001b"
+  ],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "Y01-make-include-cycle",
+  "files": {
+   "AGENTS.md": "Run `make deploy`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}",
+   "Makefile": "include a.mk\nbuild:\n\t@true\n",
+   "a.mk": "include Makefile\nfoo:\n\t@true\n"
+  },
+  "expect": [
+   "CD001:deploy"
+  ],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "Y02-just-import-cycle",
+  "files": {
+   "AGENTS.md": "Run `just deploy`.\n",
+   "justfile": "import 'b.just'\nbuild:\n    echo\n",
+   "b.just": "import 'justfile'\nx:\n    echo\n"
+  },
+  "expect": [
+   "CD001:deploy"
+  ],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "Y03-task-include-cycle",
+  "files": {
+   "AGENTS.md": "Run `task deploy`.\n",
+   "Taskfile.yml": "version: \"3\"\nincludes:\n  me: ./Taskfile.yml\ntasks:\n  build:\n    cmds: [echo]\n"
+  },
+  "expect": [
+   "CD001:deploy"
+  ],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "Y04-workspace-glob-star",
+  "files": {
+   "AGENTS.md": "Run `npm run dev --workspaces`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {},\n  \"workspaces\": [\n    \"**\"\n  ]\n}",
+   "package-lock.json": "{}",
+   "a/package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"dev\": \"x\"\n  }\n}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "Y05-pkg-json-array",
+  "files": {
+   "AGENTS.md": "Run `npm run x`.\n",
+   "package.json": "[1,2,3]",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "Y06-scripts-null",
+  "files": {
+   "AGENTS.md": "Run `npm run x`.\n",
+   "package.json": "{\"scripts\":null}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:"
+  ],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "Y07-nvmrc-garbage",
+  "files": {
+   "AGENTS.md": "Requires Node 18.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {}\n}",
+   ".nvmrc": "\u001b[2J;rm -rf /\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3",
+  "name": "Y08-version-claim-esc",
+  "files": {
+   "AGENTS.md": "Requires Node 18.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {},\n  \"engines\": {\n    \"node\": \">=20 \\u001b[2J\"\n  }\n}"
+  },
+  "expect": [
+   "CD004:\\u001b"
+  ],
+  "js": [
+   {
+    "ruleId": "CD004",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 9,
+    "endColumn": 16,
+    "message": "Version claim \"Node 18\" does not match the repo: package.json engines.node says >=20 \\u001b[2J.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3flip",
+  "name": "F01-avoid-skipping-hooks",
+  "files": {
+   "AGENTS.md": "Avoid skipping hooks with `npm run commit:nohooks`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3flip",
+  "name": "F02-never-ignore-by",
+  "files": {
+   "AGENTS.md": "Never ignore lint errors by running `npm run lint:off`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3flip",
+  "name": "F03-dont-omit-via",
+  "files": {
+   "AGENTS.md": "Don't omit types via `npm run build:loose`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3flip",
+  "name": "F04-without-old",
+  "files": {
+   "AGENTS.md": "Do not run anything without reading docs, and never `npm run nuke`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3flip",
+  "name": "F05-fail-to-neg",
+  "files": {
+   "AGENTS.md": "Never fail the build on purpose with `npm run break-ci`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "r3flip",
+  "name": "F06-comma-imperative",
+  "files": {
+   "AGENTS.md": "Do not edit dist/, regenerate with `npm run gen`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:gen"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 44,
+    "endColumn": 47,
+    "message": "Script \"gen\" is not defined in package.json. Available: build, lint.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "r3flip",
+  "name": "F07-instead-plain",
+  "files": {
+   "AGENTS.md": "Instead of yarn, use `npm run boot`.\n",
+   "package.json": "{\n  \"name\": \"x\",\n  \"scripts\": {\n    \"build\": \"x\",\n    \"lint\": \"x\"\n  }\n}",
+   "package-lock.json": "{}"
+  },
+  "expect": [
+   "CD001:boot"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 30,
+    "endColumn": 34,
+    "message": "Script \"boot\" is not defined in package.json. Available: build, lint.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fp",
+  "name": "fp00-backslash relative path",
+  "files": {
+   "AGENTS.md": "Run `.\\scripts\\build.ps1` and open `src\\index.ts`.\n",
+   "scripts/build.ps1": "x",
+   "src/index.ts": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp01-backslash path that is missing is still reported",
+  "files": {
+   "AGENTS.md": "Open `src\\gone.ts`.\n",
+   "src/index.ts": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [
+   "CD002:src/gone.ts"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 6,
+    "endColumn": 17,
+    "message": "Path \"src/gone.ts\" does not exist in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fp",
+  "name": "fp02-bash block with prompts: output lines are not commands",
+  "files": {
+   "AGENTS.md": "```bash\n$ make help\nmake test    Run the tests\n```\n",
+   "Makefile": "help:\n\t@true\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp03-listing \"make dev - start dev server\"",
+  "files": {
+   "AGENTS.md": "```\nmake dev - start dev server\nmake test    run tests\n```\n",
+   "Makefile": "dev:\n\t@true\ntest:\n\t@true\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp04-console \">\" lines are npm output",
+  "files": {
+   "AGENTS.md": "```console\n$ npm run build\n> npm run nope-from-output\n```\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{\"build\":\"x\"}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp05-CD005: different sub-projects do not conflict",
+  "files": {
+   "AGENTS.md": "Test the web app with `npm test`.\n",
+   "CLAUDE.md": "Test the API with `cd api && pytest`.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{\"test\":\"x\"}}",
+   "api/pyproject.toml": "[project]\nname=\"api\"\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp06-yarn bin from a scoped package",
+  "files": {
+   "AGENTS.md": "Serve with `yarn vue-cli-service serve`.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{},\"devDependencies\":{\"@vue/cli-service\":\"5\"}}",
+   "yarn.lock": ""
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp07-uv run pip-compile from pip-tools",
+  "files": {
+   "AGENTS.md": "Lock with `uv run pip-compile requirements.in`.\n",
+   "pyproject.toml": "[project]\nname = \"app\"\ndependencies = [\"pip-tools>=7\"]\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp08-negation on the previous line of a list item",
+  "files": {
+   "AGENTS.md": "- Do not import other packages via relative\n  `../../other-package/src` paths, and never\n  run `npm run eject`.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{\"build\":\"x\"}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp09-the word \"no\"",
+  "files": {
+   "AGENTS.md": "There is no root `pnpm dev`; there is no `make openapi` target either.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{\"build\":\"x\"}}",
+   "pnpm-lock.yaml": "",
+   "Makefile": "build:\n\t@true\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp10-a new list item is not negated by the previous one",
+  "files": {
+   "AGENTS.md": "- Don't use yarn\n- Run `npm run nope`\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{\"build\":\"x\"}}"
+  },
+  "expect": [
+   "CD001:nope"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 1,
+    "column": 15,
+    "endColumn": 19,
+    "message": "Script \"nope\" is not defined in package.json. Available: build.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fp",
+  "name": "fp11-\"a file named X\"",
+  "files": {
+   "AGENTS.md": "A stub is a file named `COLDSTORE.txt` in an empty folder.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp12-\"for example\" far back in the sentence",
+  "files": {
+   "AGENTS.md": "Tests check file names match exports, for example if you export a class named \"OpenAiAgent\" from a file, the file should be named `OpenAiAgent.ts`.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp13-\"make sure X exists\"",
+  "files": {
+   "AGENTS.md": "Make sure a `.scratchpad/` folder exists at the repo root.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp14-placeholder with underscore",
+  "files": {
+   "AGENTS.md": "1. `tools/your_tool.py`:\n",
+   "tools/base.py": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp15-\"we stopped using npm\"",
+  "files": {
+   "AGENTS.md": "We stopped using npm last year.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}",
+   "pnpm-lock.yaml": ""
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp16-generated artifacts folder",
+  "files": {
+   "AGENTS.md": "- `design/` and `outputs/`: design assets and generated artifacts.\n",
+   "design/a.png": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp17-runtime file \"(state dir)\"",
+  "files": {
+   "AGENTS.md": "| `last_session.yml` (state dir) | playback |\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp18-per-module convention name",
+  "files": {
+   "AGENTS.md": "- `data.ts` — parameterized reads.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp19-pytest node id",
+  "files": {
+   "AGENTS.md": "See `tests/test_a.py::test_one`.\n",
+   "tests/test_a.py": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp20-anchor in an inline path",
+  "files": {
+   "sub/AGENTS.md": "Follow `../AGENTS.md#workflow`.\n",
+   "AGENTS.md": "# x\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp21-path in another repo named just before it",
+  "files": {
+   "AGENTS.md": "The formula in `acme/homebrew-tap` (`Formula/tool.rb`) is rendered.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp22-tool state dot-folder",
+  "files": {
+   "AGENTS.md": "Custom commands live in `.mytool/commands/test.md`.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp23-a missing committed dot-folder is still drift",
+  "files": {
+   "AGENTS.md": "Workflows live in `.github/workflows/ci.yml`.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [
+   "CD002:.github/workflows/ci.yml"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 19,
+    "endColumn": 43,
+    "message": "Path \".github/workflows/ci.yml\" does not exist in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fp",
+  "name": "fp24-import specifier",
+  "files": {
+   "pkg/AGENTS.md": "All functions call `fetcher()` from `../fetcher`.\n",
+   "pkg/src/a.ts": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp25-git submodule path",
+  "files": {
+   "AGENTS.md": "Docs live in `webui/wiki/content/docs/`.\n",
+   ".gitmodules": "[submodule \"webui\"]\n\tpath = webui\n\turl = https://example.invalid/webui.git\n",
+   "webui/x.txt": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp26-extensionless module path",
+  "files": {
+   "AGENTS.md": "Import helpers from `src/utils/format`.\n",
+   "src/utils/format.ts": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp27-Next.js route",
+  "files": {
+   "AGENTS.md": "The `pages/api/hello` endpoint returns JSON.\n",
+   "pages/api/hello.ts": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp28-\"./utils\" under the package src/",
+  "files": {
+   "packages/runner/AGENTS.md": "Helpers are in `./utils`.\n",
+   "packages/runner/src/utils.ts": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp29-directory glob",
+  "files": {
+   "AGENTS.md": "Source lives in `packages/*/src`.\n",
+   "packages/a/src/index.ts": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp30-gitignored build glob (rule with **)",
+  "files": {
+   "AGENTS.md": "Tests use compiled `packages/*/cjs`.\n",
+   ".gitignore": "packages/**/cjs/\n",
+   "packages/a/src/index.ts": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp31-gitignored glob (basename rule)",
+  "files": {
+   "AGENTS.md": "Output in `packages/*/build` and `website/docs/_*.md`.\n",
+   ".gitignore": "build\nwebsite/docs/_*.md\n",
+   "packages/a/src/index.ts": "x",
+   "website/docs/a.md": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp32-glob that really matches nothing",
+  "files": {
+   "AGENTS.md": "Specs: `src/**/*.spec.ts`.\n",
+   "src/a.ts": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [
+   "CD002:src/**/*.spec.ts"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "info",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 8,
+    "endColumn": 24,
+    "message": "Glob \"src/**/*.spec.ts\" matches no files in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fp",
+  "name": "fp33-\"Node 18 is too old\"",
+  "files": {
+   "AGENTS.md": "Node 18 is too old for this repo; use Node 22.\n",
+   ".nvmrc": "22\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp34-\"node 7 of the cluster\"",
+  "files": {
+   "AGENTS.md": "The scheduler always runs on node 7 of the cluster.\n",
+   ".nvmrc": "22\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp35-\"added in Go 1.23\"",
+  "files": {
+   "AGENTS.md": "Helpers use `sync.Map.Clear` (added in Go 1.23) and range-over-int (Go 1.22).\n",
+   "go.mod": "module x\n\ngo 1.26\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp36-\"CI runs Python 3.14\"",
+  "files": {
+   "AGENTS.md": "CI runs Python 3.14, matching the Docker image.\n",
+   ".python-version": "3.13\n",
+   "pyproject.toml": "[project]\nname=\"x\"\n"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp37-package-level engines vs the root",
+  "files": {
+   "packages/client/AGENTS.md": "Engines: Node >=22.19.0 (repo root requires >=24).\n",
+   "packages/client/package.json": "{\"name\":\"x\",\"scripts\":{},\"engines\":{\"node\":\">=22.19.0\"}}",
+   "package.json": "{\"name\":\"x\",\"scripts\":{},\"engines\":{\"node\":\">=24\"}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp38-true Node drift",
+  "files": {
+   "AGENTS.md": "Requires Node 18.\n",
+   ".nvmrc": "20.11.0\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [
+   "CD004:Node 18"
+  ],
+  "js": [
+   {
+    "ruleId": "CD004",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 9,
+    "endColumn": 16,
+    "message": "Version claim \"Node 18\" does not match the repo: .nvmrc says 20.11.0.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fp",
+  "name": "fp39-consumer install of the published package",
+  "files": {
+   "packages/lib/CLAUDE.md": "Users install it with `npm install @acme/lib`.\n",
+   "packages/lib/package.json": "{\"name\":\"@acme/lib\"}",
+   "package.json": "{\"name\":\"root\",\"packageManager\":\"pnpm@9\"}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp40-$(eval) targets",
+  "files": {
+   "AGENTS.md": "Run `make build-api`.\n",
+   "Makefile": "SERVICES := api web\ndefine svc\nbuild-$(1):\n\t@echo $(1)\nendef\n$(foreach s,$(SERVICES),$(eval $(call svc,$(s))))\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp41-target defined in a sub-Makefile",
+  "files": {
+   "docs/AGENTS.md": "Run `make html` for the reference docs.\n",
+   "docs/Makefile": "serve:\n\t@true\n",
+   "docs/sphinx/Makefile": "html:\n\t@true\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp42-\"inside its package directory\"",
+  "files": {
+   "AGENTS.md": "Each playground can be started with `pnpm dev` inside its package directory.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{\"build\":\"x\"}}",
+   "pnpm-lock.yaml": ""
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp43-\"from the workspace root\"",
+  "files": {
+   "AGENTS.md": "Run `make win-rehearse` from the workspace root before the tag.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp44-\"yarn install/build/lint\" list",
+  "files": {
+   "AGENTS.md": "Frontend: `yarn install/build/lint`.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{\"build\":\"x\"}}",
+   "yarn.lock": ""
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp45-skill path from the plugin root",
+  "files": {
+   "skills/browse/SKILL.md": "Import `scripts/client.mjs` from this plugin's root directory.\n",
+   "scripts/client.mjs": "x"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp46-skill path that is really missing",
+  "files": {
+   "skills/browse/SKILL.md": "Run `scripts/missing.sh`.\n",
+   "scripts/client.mjs": "x"
+  },
+  "expect": [
+   "CD002:scripts/missing.sh"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "skills/browse/SKILL.md",
+    "line": 0,
+    "column": 5,
+    "endColumn": 23,
+    "message": "Path \"scripts/missing.sh\" does not exist in the repo.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fp",
+  "name": "fp47-skill without a scripts/ folder talks about another project",
+  "files": {
+   "skills/dom/SKILL.md": "`SELECTORS` in `scripts/perf/lib/cdp.mjs` holds the hooks.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp48-skill path that exists at the project root",
+  "files": {
+   "tools/skills/t/SKILL.md": "See `examples/tests/app.yaml`.\n",
+   "tools/skills/t/examples/x.md": "x",
+   "examples/tests/app.yaml": "x"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp49-applyTo with a brace list is one glob",
+  "files": {
+   ".github/instructions/web.instructions.md": "---\napplyTo: \"src/**/*.py,web/src/**/*.{ts,tsx}\"\n---\nx\n",
+   "src/a.py": "x",
+   "web/src/a.tsx": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp50-nvm alias lts/*",
+  "files": {
+   "AGENTS.md": "The image tracks the `lts/*` alias.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp51-paths listed after a home folder",
+  "files": {
+   "AGENTS.md": "Data persists under `~/.geo/` (`prospects.json`, `audits/`, `proposals/`).\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp52-\"e.g.\" before a file name",
+  "files": {
+   "AGENTS.md": "- **Scripts:** kebab-case.sh (e.g., `analyze-performance.sh`)\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp53-\"the library's copy\"",
+  "files": {
+   "AGENTS.md": "The library's copy uses relative paths (`../link.ts`).\n",
+   "src/a.ts": "x",
+   "package.json": "{\"name\":\"x\",\"scripts\":{}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp54-directive inside a code span is documentation, not a directive",
+  "files": {
+   "AGENTS.md": "Suppress with `<!-- context-drift-disable -->` if needed.\nBuild: `npm run nope`.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{\"build\":\"x\"}}"
+  },
+  "expect": [
+   "CD001:nope"
+  ],
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 1,
+    "column": 16,
+    "endColumn": 20,
+    "message": "Script \"nope\" is not defined in package.json. Available: build.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fp",
+  "name": "fp55-real directive comment still works",
+  "files": {
+   "AGENTS.md": "<!-- context-drift-disable-next-line CD001 -->\nBuild: `npm run nope`.\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{\"build\":\"x\"}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp56-directive above a fence covers the block",
+  "files": {
+   "AGENTS.md": "<!-- context-drift-disable-next-line CD001 -->\n```bash\nnpm run nope\nnpm run nope2\n```\n",
+   "package.json": "{\"name\":\"x\",\"scripts\":{\"build\":\"x\"}}"
+  },
+  "expect": [],
+  "js": []
+ },
+ {
+  "suite": "fp",
+  "name": "fp57-folder with no git and no manifest whose paths are mostly missing",
+  "files": {
+   "AGENTS.md": "See `src/a.ts`, `src/b.ts`, `docs/c.md` and `lib/d.ts`.\n",
+   "notes.txt": "x"
+  },
+  "expect": [
+   "CD002:Not a project root"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "info",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 0,
+    "endColumn": 55,
+    "message": "Not a project root: this folder is not a git repository root and has no manifest (package.json, pyproject.toml, go.mod, ...), and 4 of 4 referenced paths are missing. It looks like a copy of an instruction file, so path checks were skipped.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fp",
+  "name": "fp58-few missing paths in a folder without a manifest are still reported",
+  "files": {
+   "AGENTS.md": "Entry: `src/server/main.ts`.\n",
+   "src/main.ts": "x"
+  },
+  "expect": [
+   "CD002:src/server/main.ts"
+  ],
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 8,
+    "endColumn": 26,
+    "message": "Path \"src/server/main.ts\" does not exist in the repo. Did you mean \"src/main.ts\"?",
+    "fix": "src/main.ts"
+   }
+  ]
+ },
+ {
+  "suite": "fixture",
+  "name": "conflict",
+  "files": {
+   ".github/copilot-instructions.md": "Run `make test` before committing.\n",
+   "AGENTS.md": "# Agents\n- Test: `make test`\n- Lint: `npm run lint`\n",
+   "CLAUDE.md": "# Claude\n- Test: `npm test`\n- Lint: `npm run lint`\n",
+   "Makefile": "test:\n\tnpm test\n",
+   "package-lock.json": "{\"lockfileVersion\":3}\n",
+   "package.json": "{\"scripts\":{\"test\":\"node --test\",\"lint\":\"eslint .\"}}\n",
+   "sub/AGENTS.md": "- `npm test`\n"
+  },
+  "expect": null,
+  "js": [
+   {
+    "ruleId": "CD005",
+    "severity": "info",
+    "file": ".github/copilot-instructions.md",
+    "line": 0,
+    "column": 5,
+    "endColumn": 14,
+    "message": "copilot-instructions.md says `make test` to test, but CLAUDE.md says `npm test`. Agents get different instructions.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD005",
+    "severity": "info",
+    "file": "AGENTS.md",
+    "line": 1,
+    "column": 9,
+    "endColumn": 18,
+    "message": "AGENTS.md says `make test` to test, but CLAUDE.md says `npm test`. Agents get different instructions.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD005",
+    "severity": "info",
+    "file": "CLAUDE.md",
+    "line": 1,
+    "column": 9,
+    "endColumn": 17,
+    "message": "CLAUDE.md says `npm test` to test, but .github/copilot-instructions.md says `make test`. Agents get different instructions.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fixture",
+  "name": "go-cargo",
+  "files": {
+   ".cargo/config.toml": "[alias]\nxt = \"run -p xtask\"\n",
+   "AGENTS.md": "# Go and Rust\n- Build with Go 1.21.\n- Requires Go 1.22 or later.\n- `cargo test -p cli`\n- `cargo test -p clli`\n- `cargo xt`\n- `cargo xtask dist`\n- `cargo nextest run`\n- `cargo run --bin acme`\n- `cargo run --bin acmee`\n",
+   "Cargo.toml": "[workspace]\nmembers = [\"crates/cli\"]\n\n[package]\nname = \"core-lib\"\nversion = \"0.1.0\"\n",
+   "crates/cli/Cargo.toml": "[package]\nname = \"cli\"\n\n[[bin]]\nname = \"acme\"\npath = \"src/main.rs\"\n",
+   "crates/cli/src/main.rs": "fn main() {}\n",
+   "go.mod": "module example.com/acme\n\ngo 1.22\n"
+  },
+  "expect": null,
+  "js": [
+   {
+    "ruleId": "CD004",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 1,
+    "column": 13,
+    "endColumn": 20,
+    "message": "Version claim \"Go 1.21\" does not match the repo: go.mod go directive says >=1.22.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 4,
+    "column": 17,
+    "endColumn": 21,
+    "message": "`cargo test -p clli`: no crate named \"clli\" in the workspace. Did you mean \"cli\"?",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 6,
+    "column": 9,
+    "endColumn": 14,
+    "message": "`cargo xtask`: not a built-in command and not an alias in .cargo/config.toml (aliases: xt). If it is an installed plugin (cargo-xtask), ignore this.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 9,
+    "column": 19,
+    "endColumn": 24,
+    "message": "`cargo run --bin acmee`: no binary target \"acmee\".",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fixture",
+  "name": "make-just",
+  "files": {
+   "AGENTS.md": "# Tasks\n- `make test`\n- `make release`\n- `make deploy`\n- `make -C sub build`\n- `make VERBOSE=1 lint`\n- `just check`\n- `just c`\n- `just docs`\n- `task serve`\n- `task publish`\n- `make lnt`\n",
+   "Makefile": "include common.mk\n\n.PHONY: build test lint fmt\n\nbuild:\n\techo build\n\ntest: build\n\techo test\n\nlint fmt:\n\techo lint\n\nVERSION := 1.0\n",
+   "Taskfile.yml": "version: '3'\n\ntasks:\n  build:\n    cmds:\n      - echo build\n  serve:\n    cmds:\n      - echo serve\n",
+   "common.mk": "release:\n\techo release\n",
+   "justfile": "set shell := [\"bash\", \"-c\"]\n\ndefault:\n    just --list\n\n# run checks\ncheck target='all':\n    echo {{target}}\n\nalias c := check\n",
+   "sub/Makefile": "build:\n\techo sub\n"
+  },
+  "expect": null,
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 3,
+    "column": 8,
+    "endColumn": 14,
+    "message": "`make deploy`: no target \"deploy\" in Makefile.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 8,
+    "column": 8,
+    "endColumn": 12,
+    "message": "`just docs`: no recipe \"docs\" in justfile.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 10,
+    "column": 8,
+    "endColumn": 15,
+    "message": "`task publish`: no task \"publish\" in Taskfile.yml.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 11,
+    "column": 8,
+    "endColumn": 11,
+    "message": "`make lnt`: no target \"lnt\" in Makefile. Did you mean \"lint\"?",
+    "fix": "lint"
+   }
+  ]
+ },
+ {
+  "suite": "fixture",
+  "name": "npm-basic",
+  "files": {
+   ".cursor/rules/vue.mdc": "---\ndescription: Vue rules\nglobs: src/**/*.vue, src/**/*.ts\nalwaysApply: false\n---\nUse `npm run lint`.\n",
+   ".nvmrc": "20.11.0\n",
+   "AGENTS.md": "# Agent guide\n\n- `npm run build`\n- `npm run buidl`\n- `npm run deploy`\n- `npm test`\n- `npm start`\n- `npm install`\n- `pnpm install`\n- Requires Node 18.\n- Works on Node 20+.\n- Don't run `npm run eject`.\n- `src/index.ts`\n- `src/missing.ts`\n- `docs/`\n- [guide](./docs/guide.md)\n- [index](src/index.ts)\n- `https://example.com/a/b`\n- `<name>/file.ts`\n- `src/**/*.spec.ts`\n- `src/**/*.ts`\n\n```bash\nnpm run lint\nnpm run typo-script\n```\n\n```json\n{ \"scripts\": { \"x\": \"npm run nothing\" } }\n```\n",
+   "package-lock.json": "{\"lockfileVersion\":3}\n",
+   "package.json": "{\n  \"name\": \"npm-basic\",\n  \"version\": \"1.0.0\",\n  \"scripts\": {\n    \"build\": \"tsc\",\n    \"test\": \"node --test\",\n    \"lint\": \"eslint .\",\n    \"test:unit\": \"node --test test/unit\"\n  }\n}\n",
+   "src/index.ts": "const x = 1;\n"
+  },
+  "expect": null,
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "info",
+    "file": ".cursor/rules/vue.mdc",
+    "line": 2,
+    "column": 7,
+    "endColumn": 19,
+    "message": "globs pattern \"src/**/*.vue\" matches no files in the repo, so this rule never applies.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 3,
+    "column": 11,
+    "endColumn": 16,
+    "message": "Script \"buidl\" is not defined in package.json. Did you mean \"build\"?",
+    "fix": "build"
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 4,
+    "column": 11,
+    "endColumn": 17,
+    "message": "Script \"deploy\" is not defined in package.json. Available: build, test, lint, test:unit.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 6,
+    "column": 7,
+    "endColumn": 12,
+    "message": "Script \"start\" is not defined in package.json. Available: build, test, lint, test:unit.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD003",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 8,
+    "column": 3,
+    "endColumn": 7,
+    "message": "`pnpm` is used here, but the repo uses npm (package-lock.json).",
+    "fix": "npm"
+   },
+   {
+    "ruleId": "CD004",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 9,
+    "column": 11,
+    "endColumn": 18,
+    "message": "Version claim \"Node 18\" does not match the repo: .nvmrc says 20.11.0.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 13,
+    "column": 3,
+    "endColumn": 17,
+    "message": "Path \"src/missing.ts\" does not exist in the repo.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 14,
+    "column": 3,
+    "endColumn": 8,
+    "message": "Directory \"docs/\" does not exist in the repo.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 15,
+    "column": 10,
+    "endColumn": 25,
+    "message": "Path \"./docs/guide.md\" does not exist in the repo.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD002",
+    "severity": "info",
+    "file": "AGENTS.md",
+    "line": 19,
+    "column": 3,
+    "endColumn": 19,
+    "message": "Glob \"src/**/*.spec.ts\" matches no files in the repo.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 24,
+    "column": 8,
+    "endColumn": 19,
+    "message": "Script \"typo-script\" is not defined in package.json. Available: build, test, lint, test:unit.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fixture",
+  "name": "pnpm-monorepo",
+  "files": {
+   "AGENTS.md": "# Monorepo\n- `pnpm lint`\n- `cd packages/web && pnpm dev`\n- `cd packages/api && pnpm dev`\n- Use pnpm, not npm.\n- We use yarn for everything.\n",
+   "package.json": "{\"name\":\"mono\",\"private\":true,\"packageManager\":\"pnpm@9.12.0\",\"scripts\":{\"build\":\"turbo build\",\"test\":\"turbo test\"}}\n",
+   "packages/web/AGENTS.md": "# Web package\n- `pnpm dev`\n- `pnpm build`\n- `pnpm vite`\n- `pnpm docs:gen`\n- `npm run dev`\n- `pnpm --filter web lint`\n- `pnpm -r run e2e`\n- `pnpm docgen`\n",
+   "packages/web/package.json": "{\"name\":\"web\",\"scripts\":{\"dev\":\"vite\",\"lint\":\"eslint .\"},\"devDependencies\":{\"vite\":\"^5.0.0\",\"@acme/docgen\":\"1.0.0\"}}\n",
+   "pnpm-lock.yaml": "lockfileVersion: '9.0'\n"
+  },
+  "expect": null,
+  "js": [
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 3,
+    "column": 6,
+    "endColumn": 18,
+    "message": "`cd packages/api`: directory \"packages/api\" does not exist in the repo.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD003",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 5,
+    "column": 9,
+    "endColumn": 13,
+    "message": "This file says to use yarn, but the repo uses pnpm (package.json \"packageManager\").",
+    "fix": null
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "warning",
+    "file": "packages/web/AGENTS.md",
+    "line": 4,
+    "column": 8,
+    "endColumn": 16,
+    "message": "Script \"docs:gen\" is not defined in packages/web/package.json, package.json. Available: dev, lint, build, test.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD003",
+    "severity": "warning",
+    "file": "packages/web/AGENTS.md",
+    "line": 5,
+    "column": 3,
+    "endColumn": 6,
+    "message": "`npm` is used here, but the repo uses pnpm (package.json \"packageManager\").",
+    "fix": "pnpm"
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "warning",
+    "file": "packages/web/AGENTS.md",
+    "line": 7,
+    "column": 15,
+    "endColumn": 18,
+    "message": "Script \"e2e\" is not defined in package.json, packages/web/package.json. Available: build, test, dev, lint.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fixture",
+  "name": "python",
+  "files": {
+   ".python-version": "3.12.1\n",
+   "CLAUDE.md": "# Python\n- `uv run mycli`\n- `uv run pytest -q`\n- `uv run serve-docs`\n- `poetry run python -m acme`\n- This project targets Python 3.10.\n- Python 3.12 is used locally.\n- Python 3.11+ is supported.\n- We dropped Python 3.9 support.\n- `uv run rich`\n",
+   "pyproject.toml": "[project]\nname = \"acme-tool\"\nrequires-python = \">=3.11\"\ndependencies = [\n  \"requests>=2.31\",\n  \"rich\",\n]\n\n[project.scripts]\nmycli = \"acme.cli:main\"\n\n[dependency-groups]\ndev = [\"pytest>=8\", \"ruff\"]\n"
+  },
+  "expect": null,
+  "js": [
+   {
+    "ruleId": "CD001",
+    "severity": "warning",
+    "file": "CLAUDE.md",
+    "line": 3,
+    "column": 10,
+    "endColumn": 20,
+    "message": "`uv run serve-docs`: \"serve-docs\" is not a script in pyproject.toml ([project.scripts]/[tool.poetry.scripts]) and not a declared dependency.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD004",
+    "severity": "warning",
+    "file": "CLAUDE.md",
+    "line": 5,
+    "column": 23,
+    "endColumn": 34,
+    "message": "Version claim \"Python 3.10\" does not match the repo: .python-version says 3.12.1; pyproject.toml requires-python says >=3.11.",
+    "fix": null
+   }
+  ]
+ },
+ {
+  "suite": "fixture",
+  "name": "readme-example",
+  "files": {
+   ".nvmrc": "20.11.0\n",
+   "AGENTS.md": "- Requires Node 18.\n- Install with `pnpm install`.\n- Build: `npm run buidl`. Deploy: `make deploy`.\n- Entry point: `src/server/main.ts`\n",
+   "Makefile": "deploy-prod:\n\t./deploy.sh\n",
+   "package-lock.json": "{\"lockfileVersion\":3}\n",
+   "package.json": "{\"name\":\"app\",\"scripts\":{\"build\":\"tsc\",\"test\":\"node --test\"}}\n",
+   "src/main.ts": "const x = 1;\n"
+  },
+  "expect": null,
+  "js": [
+   {
+    "ruleId": "CD004",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 0,
+    "column": 11,
+    "endColumn": 18,
+    "message": "Version claim \"Node 18\" does not match the repo: .nvmrc says 20.11.0.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD003",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 1,
+    "column": 16,
+    "endColumn": 20,
+    "message": "`pnpm` is used here, but the repo uses npm (package-lock.json).",
+    "fix": "npm"
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 2,
+    "column": 18,
+    "endColumn": 23,
+    "message": "Script \"buidl\" is not defined in package.json. Did you mean \"build\"?",
+    "fix": "build"
+   },
+   {
+    "ruleId": "CD001",
+    "severity": "error",
+    "file": "AGENTS.md",
+    "line": 2,
+    "column": 40,
+    "endColumn": 46,
+    "message": "`make deploy`: no target \"deploy\" in Makefile.",
+    "fix": null
+   },
+   {
+    "ruleId": "CD002",
+    "severity": "warning",
+    "file": "AGENTS.md",
+    "line": 3,
+    "column": 16,
+    "endColumn": 34,
+    "message": "Path \"src/server/main.ts\" does not exist in the repo. Did you mean \"src/main.ts\"?",
+    "fix": "src/main.ts"
+   }
+  ]
+ }
+]
