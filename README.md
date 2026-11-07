@@ -82,17 +82,18 @@ Needs a JDK 17 or newer to start Gradle (Gradle downloads the JDK 21 toolchain i
 
 ## Support Zovo
 
-Zovo builds and maintains Context Drift. If it saves you time, you can support the work on [GitHub Sponsors](https://github.com/sponsors/theluckystrike). Sponsorship is optional, and the tool works the same without it.
+Zovo builds and maintains this plugin. If it saves you time, you can support the work on [GitHub Sponsors](https://github.com/sponsors/theluckystrike). Sponsorship is optional, and the tool works the same without it.
 
-Bugs and ideas go to [GitHub issues](https://github.com/theluckystrike/context-drift/issues).
+Bug reports and ideas go to [GitHub issues](https://github.com/theluckystrike/context-drift-jetbrains/issues).
 
 Zovo is made by [theluckystrike](https://github.com/theluckystrike) on GitHub.
 
 ## More tools by Zovo
 
-- [Context Drift for VS Code](https://marketplace.visualstudio.com/items?itemName=zovo.context-drift). The same checks in VS Code, where this plugin started.
-- [JSONL Viewer & NDJSON Viewer (JSONL Table) for VS Code](https://marketplace.visualstudio.com/items?itemName=zovo.zovo-jsonl-viewer). Opens JSONL and NDJSON files as a table, as records or as a chat view.
-- [Agent Skills & Claude Skills Manager (Skill Shelf) for VS Code](https://marketplace.visualstudio.com/items?itemName=zovo.skill-shelf). Lists, checks and toggles the Agent Skills that Claude Code, Codex and Cursor load.
-- [Claude Code History & Codex History Viewer for VS Code](https://marketplace.visualstudio.com/items?itemName=zovo.agent-session-viewer). Browses and searches your local Claude Code and Codex sessions.
+- [AGENTS.md & CLAUDE.md Linter (Context Drift)](https://marketplace.visualstudio.com/items?itemName=zovo.context-drift) for VS Code. Finds stale commands, paths and versions in AGENTS.md and CLAUDE.md files.
+- [Agent Skills & Claude Skills Manager (Skill Shelf)](https://marketplace.visualstudio.com/items?itemName=zovo.skill-shelf) for VS Code. Lists, checks and toggles the Agent Skills that Claude Code, Codex and Cursor load.
+- [Claude Code Usage, Codex Usage & Gemini CLI Usage Meter](https://marketplace.visualstudio.com/items?itemName=zovo.ai-usage-meter) for VS Code. Shows Claude Code and Codex tokens and estimated cost from your local session files.
+- [AI Usage Meter for JetBrains IDEs](https://github.com/theluckystrike/ai-usage-meter-jetbrains). Shows Claude Code, Codex and Gemini CLI usage in the IDE status bar, offline.
+- [All Zovo tools on GitHub](https://github.com/theluckystrike?tab=repositories). Free tools for VS Code, JetBrains IDEs, Obsidian, Apify and Atlassian.
 
 [zovo-support-end]: #

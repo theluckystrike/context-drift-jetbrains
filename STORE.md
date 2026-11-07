@@ -52,7 +52,7 @@ Text for the end of the plugin description in `plugin.xml` at the next version (
 <h3>More tools by Zovo</h3>
 <ul>
 <li><a href="https://marketplace.visualstudio.com/items?itemName=zovo.context-drift">Context Drift for VS Code</a>, the same checks in VS Code.</li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=zovo.zovo-jsonl-viewer">JSONL Viewer & NDJSON Viewer (JSONL Table)</a> for VS Code. Opens JSONL and NDJSON files as a table, as records or as a chat view.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=zovo.zovo-jsonl-viewer">JSONL Viewer, Large JSONL Table & NDJSON Viewer</a> for VS Code. Opens JSONL and NDJSON files as a table, as records or as a chat view.</li>
 <li><a href="https://marketplace.visualstudio.com/items?itemName=zovo.skill-shelf">Agent Skills & Claude Skills Manager (Skill Shelf)</a> for VS Code. Lists, checks and toggles the Agent Skills that Claude Code, Codex and Cursor load.</li>
 <li><a href="https://marketplace.visualstudio.com/items?itemName=zovo.agent-session-viewer">Claude Code History & Codex History Viewer</a> for VS Code. Browses and searches your local Claude Code and Codex sessions.</li>
 </ul>
