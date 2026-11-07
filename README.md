@@ -78,6 +78,21 @@ Needs a JDK 17 or newer to start Gradle (Gradle downloads the JDK 21 toolchain i
 ./gradlew runIde          # a sandbox IDE with the plugin
 ```
 
-## Support
+[zovo-support-start]: #
 
-Context Drift is free and MIT licensed. If it saves you time, you can [sponsor it on GitHub](https://github.com/sponsors/theluckystrike). Bugs and ideas go to [GitHub issues](https://github.com/theluckystrike/context-drift/issues).
+## Support Zovo
+
+Zovo builds and maintains Context Drift. If it saves you time, you can support the work on [GitHub Sponsors](https://github.com/sponsors/theluckystrike). Sponsorship is optional, and the tool works the same without it.
+
+Bugs and ideas go to [GitHub issues](https://github.com/theluckystrike/context-drift/issues).
+
+Zovo is made by [theluckystrike](https://github.com/theluckystrike) on GitHub.
+
+## More tools by Zovo
+
+- [Context Drift for VS Code](https://marketplace.visualstudio.com/items?itemName=zovo.context-drift). The same checks in VS Code, where this plugin started.
+- [JSONL Viewer & NDJSON Viewer (JSONL Table) for VS Code](https://marketplace.visualstudio.com/items?itemName=zovo.zovo-jsonl-viewer). Opens JSONL and NDJSON files as a table, as records or as a chat view.
+- [Agent Skills & Claude Skills Manager (Skill Shelf) for VS Code](https://marketplace.visualstudio.com/items?itemName=zovo.skill-shelf). Lists, checks and toggles the Agent Skills that Claude Code, Codex and Cursor load.
+- [Claude Code History & Codex History Viewer for VS Code](https://marketplace.visualstudio.com/items?itemName=zovo.agent-session-viewer). Browses and searches your local Claude Code and Codex sessions.
+
+[zovo-support-end]: #

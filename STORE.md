@@ -36,3 +36,27 @@ export PUBLISH_TOKEN='<the permanent token from step 4>'
 
 1. https://plugins.jetbrains.com/docs/marketplace/how-to-start-selling-plugins.html: apply to sell (Sales Agreement, payout bank account, tax forms). This needs the owner's identity and tax data. Allow 1 to 2 weeks for JetBrains to set up the product code.
 2. JetBrains assigns a product code. The orchestrator then adds `<product-descriptor code="..." release-date="..." release-version="..." optional="true"/>` to plugin.xml and the license check described in PAID-PLAN.md.
+
+[zovo-support-start]: #
+
+## Zovo links for the Marketplace page
+
+JetBrains wants donation links only in the dedicated "Donation link" field, never in the plugin description (https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html).
+
+- Donation link field: https://github.com/sponsors/theluckystrike
+- Vendor URL: https://github.com/theluckystrike
+
+Text for the end of the plugin description in `plugin.xml` at the next version (no donation links there):
+
+```html
+<h3>More tools by Zovo</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=zovo.context-drift">Context Drift for VS Code</a>, the same checks in VS Code.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=zovo.zovo-jsonl-viewer">JSONL Viewer & NDJSON Viewer (JSONL Table)</a> for VS Code. Opens JSONL and NDJSON files as a table, as records or as a chat view.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=zovo.skill-shelf">Agent Skills & Claude Skills Manager (Skill Shelf)</a> for VS Code. Lists, checks and toggles the Agent Skills that Claude Code, Codex and Cursor load.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=zovo.agent-session-viewer">Claude Code History & Codex History Viewer</a> for VS Code. Browses and searches your local Claude Code and Codex sessions.</li>
+</ul>
+<p>Source code and all Zovo tools: <a href="https://github.com/theluckystrike">theluckystrike on GitHub</a>.</p>
+```
+
+[zovo-support-end]: #
